@@ -46,6 +46,7 @@
 
 %% Level 1
 -export([ %% Level 1
+          on_load/0,
 	  rotg/2,
 	  rot/3, rot/9,
 	  scal/2, scal/5,

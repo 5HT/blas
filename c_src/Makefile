@@ -1,7 +1,9 @@
 
 C_SRC_OUTPUT = ../priv/eblas.so
 
-ERL_INCLUDE_DIR = $(ERLANG_ROOT_DIR)/usr/include
+ERL_INCLUDE_DIR = $(ERLANG_ROOT_DIR)/include
+BLAS_I = /usr/local/opt/openblas/include
+BLAS_L = /usr/local/opt/openblas/lib
 
 UNAME_SYS := $(shell uname -s)
 ifeq ($(UNAME_SYS), Darwin)
@@ -16,8 +18,9 @@ else ifeq ($(UNAME_SYS), Linux)
 endif
 
 $(C_SRC_OUTPUT): *.c
-	$(CC) $(CFLAGS) *.c -g -fPIC -shared -o $(C_SRC_OUTPUT) -I $(ERL_INCLUDE_DIR) \
-		$(C_SRC_OPTS) -L/usr/lib -l:libcblas.so.3 -l:libatlas.so.3
+	$(CC) $(CFLAGS) *.c -g -fPIC -shared -o $(C_SRC_OUTPUT) -I $(ERL_INCLUDE_DIR) -I $(BLAS_I) \
+		$(C_SRC_OPTS) -L$(BLAS_L) -lopenblas -v
+#-l:libatlas.so.3
 
 clean:
 	rm -f $(C_SRC_OUTPUT)
